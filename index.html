@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multiple markers - Google Map</title>
+    <style>
+      #map {
+        width: 1000px;
+        height: 700px;
+        margin: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLsDtOuDkS49O2Bagurz_NwAZWNVv-V8k&callback=initMap"
+    ></script>
+    <script>
+      const locations = [
+        { lat: 24.969274894877866, lng: 121.51665272308246 },
+        { lat: 25.04214420560375, lng: 121.52625099794517 },
+        { lat: 24.988444898928744, lng: 121.57717472914807 },
+        { lat: 24.987607394783375, lng: 121.57814783842477 },
+      ];
+
+      const pos_name = [
+        "金門阿姨滷味",
+        "北商",
+        "政大",
+        "政大鴨血",
+      ];
+
+      // Initialize and add the map
+      function initMap() {
+        // The location of Uluru   25.04137252177618, 121.55049728559904
+        const center = { lat: 25.04137252177618, lng: 121.55049728559904 };
+        const img = "placeholder.png";
+
+        // The map, centered at Uluru
+        const map = new google.maps.Map(document.querySelector("#map"), {
+          zoom: 15,
+          center: center,
+        });
+
+        for (let i = 0; i < locations.length; i++) {
+          const marker = new google.maps.Marker({
+            position: locations[i],
+            map: map,
+            title: pos_name[i],
+            icon: img,
+          });
+
+          const infowindow = new google.maps.InfoWindow({
+            content: pos_name[i],
+            ariaLabel: pos_name[i],
+          });
+
+          marker.addListener("click", () => {
+            infowindow.open({
+              anchor: marker,
+              map,
+            });
+          });
+        }
+      }
+
+      window.initMap = initMap;
+    </script>
+  </body>
+</html>
